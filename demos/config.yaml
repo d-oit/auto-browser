@@ -1,18 +1,19 @@
 sites:
-  example:
-    name: Example Site
-    url_pattern: https://example.com
+  rotten_tomatoes:
+    name: Rotten Tomatoes Movies
+    description: Extract movie reviews from Rotten Tomatoes
+    url_pattern: https://www.rottentomatoes.com/browse/movies_in_theaters/
     selectors:
-      title: h1
-      content: main
-    extract:
-    - type: text
-      selector: h1
-      name: title
-    - type: text
-      selector: main
-      name: content
-    wait_for: h1
+      movie_items:
+        css: .media-list__item
+        description: Movie entries
+        multiple: true
+      movie_title:
+        css: .media-list__title
+        description: Movie title
+      movie_score:
+        css: .tomatometer-score
+        description: Tomatometer score
   finance:
     name: finance
     description: Extract stock information
@@ -46,26 +47,3 @@ sites:
         css: .Ax4B8.ZAGvjd
         description: Search input field
         multiple: false
-output_dir: output
-browser:
-  headless: true
-  viewport:
-    width: 1280
-    height: 720
-  timeout: 30000
-templates_dir: templates
-default_template:
-  selectors:
-    title: h1
-    content: main
-  wait_for: h1
-  extract:
-  - type: text
-    selector: h1
-    name: title
-  - type: text
-    selector: main
-    name: content
-logging:
-  level: info
-  file: auto-browser.log

@@ -3,6 +3,8 @@
 from pathlib import Path
 from typing import Dict, Any, List
 from datetime import datetime
+import re
+from urllib.parse import urlparse
 
 class MarkdownFormatter:
     """Format analyzed content as markdown."""
@@ -40,13 +42,30 @@ class MarkdownFormatter:
         
         return "\n\n".join(sections)
     
+    def _create_filename(self, url: str) -> str:
+        """Create a safe filename from URL with timestamp."""
+        # Parse URL to get domain and path
+        parsed = urlparse(url)
+        domain = parsed.netloc.replace("www.", "")
+        
+        # Clean domain and path
+        domain = re.sub(r'[^\w\-_]', '_', domain)
+        path = re.sub(r'[^\w\-_]', '_', parsed.path)
+        if path and path != '/':
+            base = f"{domain}_{path.strip('_')}"
+        else:
+            base = domain
+            
+        # Add timestamp
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        
+        # Create final filename
+        return f"{base}_{timestamp}.md"
     
     def save_markdown(self, content: str, url: str, output_dir: str = "output") -> Path:
-        """Save markdown content to file."""
-        # Create safe filename from URL
-        filename = url.split('/')[-1].split('?')[0] or 'index'
-        if not filename.endswith('.md'):
-            filename = f"{filename}.md"
+        """Save markdown content to file with unique name."""
+        # Create unique filename
+        filename = self._create_filename(url)
             
         # Ensure output directory exists
         output_path = Path(output_dir)

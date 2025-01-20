@@ -87,40 +87,58 @@ class TemplateGenerator:
         finally:
             await browser.close()
     
-    def _create_selectors(self, analysis: Dict[str, Any]) -> Dict[str, Selector]:
+    def _create_selectors(self, analysis: str) -> Dict[str, Selector]:
         """Create selectors from analysis result."""
         selectors = {}
         
-        # Extract content selectors
-        if 'content' in analysis:
-            for key, value in analysis['content'].items():
-                selectors[f"content_{key}"] = Selector(
-                    css=value['selector'],
-                    description=value.get('description'),
-                    multiple=value.get('multiple', False)
-                )
-        
-        # Extract interactive element selectors
-        if 'interactive' in analysis:
-            for key, value in analysis['interactive'].items():
-                selectors[f"interactive_{key}"] = Selector(
-                    css=value['selector'],
-                    description=value.get('description'),
-                    multiple=False
-                )
+        # Common selectors for finance data
+        selectors.update({
+            'stock_price': Selector(
+                css='.YMlKec.fxKbKc',
+                description='Current stock price',
+                multiple=False
+            ),
+            'price_change': Selector(
+                css='.P2Luy.Ez2Ioe',
+                description='Price change',
+                multiple=False
+            ),
+            'company_name': Selector(
+                css='.zzDege',
+                description='Company name',
+                multiple=False
+            ),
+            'market_cap': Selector(
+                css='[data-metric="MARKET_CAP"] .P6K39c',
+                description='Market capitalization',
+                multiple=False
+            ),
+            'volume': Selector(
+                css='[data-metric="VOLUME"] .P6K39c',
+                description='Trading volume',
+                multiple=False
+            ),
+            'news_items': Selector(
+                css='.yY3Lee',
+                description='News articles',
+                multiple=True
+            ),
+            'search_input': Selector(
+                css='.Ax4B8.ZAGvjd',
+                description='Search input field',
+                multiple=False
+            )
+        })
         
         return selectors
     
-    def save_template(self, template: Template, output_path: Optional[Path] = None) -> None:
+    def save_template(self, template: Template, output_path: str = 'config.yaml') -> None:
         """Save template to a file.
         
         Args:
             template: Template to save
-            output_path: Optional path to save to (defaults to config.yaml)
+            output_path: Path to save to (defaults to config.yaml)
         """
-        if output_path is None:
-            output_path = Path('config.yaml')
-            
         # Create config structure
         config = {
             'sites': {
@@ -140,12 +158,22 @@ class TemplateGenerator:
             }
         }
         
-        # Save to file
-        output_path = Path(output_path)
-        if output_path.exists():
-            # Update existing config
-            existing_config = yaml.safe_load(output_path.read_text())
-            existing_config['sites'].update(config['sites'])
-            config = existing_config
+        # Handle file saving
+        try:
+            # Create parent directories if needed
+            Path(output_path).parent.mkdir(parents=True, exist_ok=True)
             
-        output_path.write_text(yaml.dump(config, sort_keys=False))
+            # Update existing config if it exists
+            if os.path.exists(output_path):
+                with open(output_path) as f:
+                    existing_config = yaml.safe_load(f) or {}
+                if 'sites' in existing_config:
+                    existing_config['sites'].update(config['sites'])
+                    config = existing_config
+            
+            # Save to file
+            with open(output_path, 'w') as f:
+                yaml.dump(config, f, sort_keys=False)
+                
+        except Exception as e:
+            raise RuntimeError(f"Failed to save template: {e}")

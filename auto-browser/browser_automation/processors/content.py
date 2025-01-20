@@ -27,15 +27,27 @@ class PageElement:
         elif self.element_type == "select":
             actions.extend(["select", "get_options"])
         return actions
+        
+    def to_dict(self) -> Dict[str, Any]:
+        """Convert to dictionary for JSON serialization."""
+        return {
+            'selector': self.selector,
+            'element_type': self.element_type,
+            'name': self.name,
+            'description': self.description,
+            'is_interactive': self.is_interactive,
+            'actions': self.actions or []
+        }
 
 class ContentProcessor:
     """Process and analyze webpage content."""
     
     def analyze_page(self, content: Dict[str, Any]) -> Dict[str, Any]:
         """Analyze page content and structure."""
+        elements = self._identify_elements(content)
         return {
             "content": self._process_content(content),
-            "elements": self._identify_elements(content),
+            "elements": [el.to_dict() for el in elements],
             "forms": self._find_forms(content)
         }
     
