@@ -47,7 +47,6 @@ class BrowserAutomation:
             # Create task description
             task = self._create_task(url)
             
-            # Create and run agent
             # Get API key and model from environment
             api_key = os.getenv('OPENAI_API_KEY')
             if not api_key:
@@ -69,12 +68,34 @@ class BrowserAutomation:
             # Run agent and get result
             result = await agent.run()
             
-            # Process interactive actions if any
+            # If there are interactive actions, create a new task for them
             if self.config.get('actions'):
-                page = await browser.new_page()
-                await page.goto(url)
-                for action in self.config['actions']:
-                    await self._perform_action(page, action)
+                actions_desc = "\n".join([
+                    f"- {action['action_type']}: {action.get('description', '')}"
+                    for action in self.config['actions']
+                ])
+                
+                interactive_task = f"""
+                1. Navigate to '{url}'
+                2. Perform these actions in sequence:
+                {actions_desc}
+                3. Extract and return the results
+                """
+                
+                # Create new agent for interactive task
+                interactive_agent = Agent(
+                    task=interactive_task,
+                    llm=ChatOpenAI(
+                        api_key=api_key,
+                        model=model
+                    ),
+                    browser=browser,
+                    use_vision=True
+                )
+                
+                # Run interactive task
+                interactive_result = await interactive_agent.run()
+                result = f"{result}\n\nInteractive Results:\n{interactive_result}"
                     
             # Structure the content
             structured_content = {
@@ -117,34 +138,6 @@ class BrowserAutomation:
         task_parts.append("3. Return the content in a JSON format with descriptive keys.")
         
         return "\n".join(task_parts)
-    
-    async def _perform_action(self, page, action: Dict[str, Any]):
-        """Perform a browser action using Puppeteer page methods."""
-        action_type = action.get('action_type')
-        selector = action.get('selector', '')
-        value = action.get('value', '')
-        index = action.get('index', 0)
-        
-        if action_type == 'click':
-            elements = await page.query_selector_all(selector) if selector else []
-            if elements and len(elements) > index:
-                await elements[index].click()
-            else:
-                console.print(f"[yellow]Warning:[/yellow] Element not found for clicking: {selector}")
-                
-        elif action_type == 'type':
-            elements = await page.query_selector_all(selector) if selector else []
-            if elements and len(elements) > index:
-                await elements[index].type(value)
-            else:
-                console.print(f"[yellow]Warning:[/yellow] Element not found for typing: {selector}")
-                
-        elif action_type == 'select':
-            elements = await page.query_selector_all(selector) if selector else []
-            if elements and len(elements) > index:
-                await elements[index].select_option(value)
-            else:
-                console.print(f"[yellow]Warning:[/yellow] Element not found for selecting: {selector}")
             
     async def _extract_content(self, browser: Browser) -> str:
         """Extract content from the page."""
