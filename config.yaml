@@ -1,0 +1,51 @@
+# Auto-browser configuration file
+
+# Site configurations
+sites:
+  example:
+    name: "Example Site"
+    url_pattern: "https://example.com"
+    selectors:
+      title: "h1"
+      content: "main"
+    extract:
+      - type: "text"
+        selector: "h1"
+        name: "title"
+      - type: "text"
+        selector: "main"
+        name: "content"
+    wait_for: "h1"
+
+# Output directory for results
+output_dir: output
+
+# Browser settings
+browser:
+  headless: true
+  viewport:
+    width: 1280
+    height: 720
+  timeout: 30000  # milliseconds
+
+# Site templates directory
+templates_dir: templates
+
+# Default template settings
+default_template:
+  selectors:
+    title: "h1"
+    content: "main"
+  wait_for: "h1"
+  extract:
+    - type: "text"
+      selector: "h1"
+      name: "title"
+    - type: "text"
+      selector: "main"
+      name: "content"
+
+# Logging settings
+logging:
+  level: "info"
+  file: "auto-browser.log"

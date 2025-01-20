@@ -1,0 +1,221 @@
+sites:
+  google_search:
+    name: "Google Search"
+    description: "Extract search results from Google"
+    url_pattern: "https://www.google.com"
+    selectors:
+      search_box:
+        css: "textarea[name='q']"
+        description: "Google search input field"
+      search_results:
+        css: "div.g"
+        description: "Search result entries"
+        multiple: true
+sites:
+  google_search:
+    name: "Google Search"
+    description: "Extract search results from Google"
+    url_pattern: "https://www.google.com"
+    selectors:
+      search_box:
+        css: "textarea[name='q']"
+        description: "Google search input field"
+      search_results:
+        css: "div.g"
+        description: "Search result entries"
+        multiple: true
+sites:
+  multi_tab_demo:
+    name: "Multi-Tab Demo"
+    description: "Handle multiple browser tabs"
+    url_pattern: "https://{domain}"
+    selectors:
+      page_title:
+        css: "h1"
+        description: "Main page title"
+      tab_content:
+        css: "main"
+        description: "Main content area"
+      new_tab_button:
+        css: "button[title='Open new tab']"
+        description: "New tab button"
+sites:
+  multi_tab_demo:
+    name: "Multi-Tab Demo"
+    description: "Handle multiple browser tabs"
+    url_pattern: "https://{domain}"
+    selectors:
+      page_title:
+        css: "h1"
+        description: "Main page title"
+      tab_content:
+        css: "main"
+        description: "Main content area"
+      new_tab_button:
+        css: "button[title='Open new tab']"
+        description: "New tab button"
+sites:
+  clinical_trials:
+    name: "Clinical Trials Demo"
+    description: "Extract data from EU Clinical Trials website"
+    url_pattern: "https://euclinicaltrials.eu/ctis-public/view/{trial_id}"
+    selectors:
+      title:
+        css: "h1.trial-title"
+        description: "Trial title"
+      summary:
+        css: "div.trial-summary"
+        description: "Trial summary"
+      details:
+        css: "div.trial-details div"
+        description: "Trial detail sections"
+      download_button:
+        css: "button:contains('Download clinical trial')"
+        description: "Download button"
+      notifications_tab:
+        css: "button:has-text('Notifications')"
+        description: "Notifications tab"
+      serious_breach:
+        css: "div:has-text('Serious Breach')"
+        description: "Serious breach section"
+      breach_details:
+        css: ".breach-details"
+        description: "Breach detail content"
+sites:
+  rotten_tomatoes:
+    name: "Rotten Tomatoes Movies"
+    description: "Extract movie reviews from Rotten Tomatoes"
+    url_pattern: "https://www.rottentomatoes.com/browse/movies_in_theaters/"
+    selectors:
+      movie_items:
+        css: ".media-list__item"
+        description: "Movie entries"
+        multiple: true
+      movie_title:
+        css: ".media-list__title"
+        description: "Movie title"
+      movie_score:
+        css: ".tomatometer-score"
+        description: "Tomatometer score"
+sites:
+  rotten_tomatoes:
+    name: "Rotten Tomatoes Movies"
+    description: "Extract movie reviews from Rotten Tomatoes"
+    url_pattern: "https://www.rottentomatoes.com/browse/movies_in_theaters/"
+    selectors:
+      movie_items:
+        css: ".media-list__item"
+        description: "Movie entries"
+        multiple: true
+      movie_title:
+        css: ".media-list__title"
+        description: "Movie title"
+      movie_score:
+        css: ".tomatometer-score"
+        description: "Tomatometer score"
+sites:
+  rotten_tomatoes:
+    name: "Rotten Tomatoes Movies"
+    description: "Extract movie reviews from Rotten Tomatoes"
+    url_pattern: "https://www.rottentomatoes.com/browse/movies_in_theaters/"
+    selectors:
+      movie_items:
+        css: "a[href^='/m/']"
+        description: "Movie entries"
+        multiple: true
+      movie_title:
+        css: "h2.p--small"
+        description: "Movie title"
+      movie_score:
+        css: "score-board__tomatometer"
+        description: "Tomatometer score"
+      movie_audience:
+        css: "score-board__audience-score"
+        description: "Audience score"
+sites:
+  rotten_tomatoes:
+    name: "Rotten Tomatoes Movies"
+    description: "Extract movie reviews from Rotten Tomatoes"
+    url_pattern: "https://www.rottentomatoes.com/browse/movies_in_theaters/"
+    selectors:
+      movie_items:
+        css: "a[href^='/m/']"
+        description: "Movie entries"
+        multiple: true
+      movie_title:
+        css: "h2.p--small"
+        description: "Movie title"
+      movie_score:
+        css: "score-board__tomatometer"
+        description: "Tomatometer score"
+      movie_audience:
+        css: "score-board__audience-score"
+        description: "Audience score"
+    template: |
+      # Latest Movies in Theaters
+      {{#each movies}}
+      ## {{movie_title}}
+      - Tomatometer: {{movie_score}}
+      - Audience Score: {{movie_audience}}
+      {{/each}}
+sites:
+  rotten_tomatoes:
+    name: "Rotten Tomatoes Movies"
+    description: "Extract movie reviews from Rotten Tomatoes"
+    url_pattern: "https://www.rottentomatoes.com/browse/movies_in_theaters/"
+    selectors:
+      movie_list:
+        css: "div.discovery-tiles"
+        description: "Container for movie listings"
+      movie_items:
+        css: "div.flex-container"
+        description: "Individual movie entries"
+        multiple: true
+        children:
+          title:
+            css: "h2.p--small"
+            description: "Movie title"
+          score:
+            css: "score-board-deprecated"
+            description: "Tomatometer score"
+          audience:
+            css: "audience-score"
+            description: "Audience score"
+    output_format:
+      markdown:
+        template: |
+          # Latest Movies in Theaters
+          {{#each movie_items}}
+          ## {{title}}
+          - Tomatometer: {{score}}
+          - Audience Score: {{audience}}
+          {{/each}}
+sites:
+  rotten_tomatoes:
+    name: "Rotten Tomatoes Movies"
+    description: "Extract movie reviews from Rotten Tomatoes"
+    url_pattern: "https://www.rottentomatoes.com/browse/movies_in_theaters/"
+    selectors:
+      movie_list:
+        css: "div.discovery-tiles"
+        description: "Container for movie listings"
+      movie_items:
+        css: "div.flex-container"
+        description: "Individual movie entries"
+        multiple: true
+      movie_title:
+        css: "h2.p--small"
+        description: "Movie title"
+      movie_score:
+        css: "score-board-deprecated"
+        description: "Tomatometer score"
+      movie_audience:
+        css: "audience-score"
+        description: "Audience score"
+    template: |
+      # Latest Movies in Theaters
+      {{#each movie_items}}
+      ## {{movie_title}}
+      - Tomatometer: {{movie_score}}
+      - Audience Score: {{movie_audience}}
+      {{/each}}
