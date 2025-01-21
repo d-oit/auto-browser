@@ -6,7 +6,7 @@ setup(
     description="Browser automation CLI tool for configurable site scraping",
     author="rUv",
     author_email="ruv@ruv.net",
-    url="https://github.com/yourusername/auto-browser",
+    url="https://github.com/ruvnet/auto-browser",
     packages=find_packages(),
     scripts=['auto-browser'],
     install_requires=[
@@ -16,7 +16,8 @@ setup(
         "rich>=13.0.0,<14.0.0",
         "browser-use>=0.1.23",
         "langchain-openai>=0.2.14",
-        "python-dotenv>=1.0.0"
+        "python-dotenv>=1.0.0",
+        "streamlit>=1.30.0"
     ],
     python_requires=">=3.11",
 )

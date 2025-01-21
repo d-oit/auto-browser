@@ -11,6 +11,8 @@ from rich.console import Console
 from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn, TaskProgressColumn
 import yaml
 from dotenv import load_dotenv
+import threading
+from queue import Queue
 
 # Load environment variables from the correct location
 def load_environment(verbose: bool = False):
@@ -57,8 +59,13 @@ def create_progress() -> Progress:
     default='config.yaml',
     help='Path to config file'
 )
+@click.option(
+    '--ui',
+    is_flag=True,
+    help='Launch with Streamlit UI'
+)
 @click.pass_context
-def cli(ctx, config):
+def cli(ctx, config, ui):
     """Browser automation CLI tool for web interaction and data extraction"""
     ctx.ensure_object(dict)
     try:
@@ -312,8 +319,58 @@ def main():
             
         # Create output directory
         Path('output').mkdir(exist_ok=True)
+        
+        # Initialize output manager
+        from .ui.output_handler import OutputManager
+        output_manager = OutputManager.get_instance()
+        
+        # Get CLI arguments
+        args = sys.argv[1:]
+        if '--ui' in args and len(args) == 1:  # Only --ui flag present
+            # Launch Streamlit
+            import subprocess
+            console.print("[blue]Starting Auto-Browser UI...[/blue]")
+            streamlit_cmd = ['streamlit', 'run', str(Path(__file__).parent / 'ui' / 'streamlit_app.py')]
             
-        cli(obj={}, standalone_mode=False)
+            # Start Streamlit in a way that shows the URL in the console
+            process = subprocess.Popen(
+                streamlit_cmd,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                universal_newlines=True
+            )
+            
+            # Wait for Streamlit to start and print the URL
+            local_url = None
+            while True:
+                output = process.stdout.readline()
+                if "You can now view your Streamlit app in your browser." in output:
+                    # Keep reading until we find the Local URL
+                    while True:
+                        line = process.stdout.readline()
+                        if "Local URL:" in line:
+                            local_url = line.split("Local URL:", 1)[1].strip()
+                            break
+                        elif process.poll() is not None:
+                            break
+                    
+                    console.print(f"[green]Auto-Browser UI is ready![/green]")
+                    if local_url:
+                        console.print(f"[blue]Open your browser to: {local_url}[/blue]")
+                    break
+                elif process.poll() is not None:
+                    console.print("[red]Error starting Streamlit UI[/red]")
+                    sys.exit(1)
+            
+            # Keep the process running
+            try:
+                process.wait()
+            except KeyboardInterrupt:
+                process.terminate()
+                sys.exit(0)
+        else:
+            # Normal CLI operation
+            cli(args=args, obj={}, standalone_mode=False)
     except click.exceptions.Abort:
         sys.exit(1)
     except Exception as e:
