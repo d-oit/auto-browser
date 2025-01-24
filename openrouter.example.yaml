@@ -1,0 +1,49 @@
+# OpenRouter API Configuration
+api_key: 
+base_url: https://openrouter.ai/api/v1
+
+# Model Settings
+models:
+  browser:
+    automation:
+      - anthropic/claude-3-opus
+    scraping:
+      - anthropic/claude-3-opus
+    custom: []
+
+# Model Parameters
+parameters:
+  temperature: 0.7
+  max_tokens: 2000
+  top_p: 0.95
+  frequency_penalty: 0
+  presence_penalty: 0
+  stop_sequences: []
+
+# Request Configuration
+request:
+  timeout: 30000
+  retries: 3
+  backoff: 1000
+
+# Response Configuration
+response:
+  stream: false
+  format: json
+  include_prompt: false
+  include_metadata: true
+
+# Rate Limiting
+rate_limit:
+  requests_per_minute: 60
+  concurrent_requests: 5
+  cooldown_period: 60000
+
+# Fallback Configuration
+fallback:
+  enabled: true
+  models:
+    - google/gemini-pro
+    - openai/gpt-4-turbo
+  max_attempts: 3
+  delay: 1000

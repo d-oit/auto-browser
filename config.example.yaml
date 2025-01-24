@@ -1,0 +1,32 @@
+# Browser Settings
+BROWSER_HEADLESS=false
+BROWSER_WIDTH=900
+BROWSER_HEIGHT=600
+BROWSER_JAVASCRIPT=true
+BROWSER_IMAGES=true
+BROWSER_CSS=true
+NAVIGATION_TIMEOUT=30000
+SCRIPT_TIMEOUT=30000
+USER_AGENT=
+
+# Automation Settings
+MAX_RETRIES=3
+RETRY_DELAY=1000
+SELECTOR_STRATEGY=css
+WAIT_TIMEOUT=30000
+WAIT_INTERVAL=500
+SCREENSHOT_QUALITY=80
+SCREENSHOT_TYPE=jpeg
+ERROR_HANDLING=prompt
+DEBUG_MODE=false
+PERFORMANCE_LOGGING=false
+
+# Log Settings
+LOG_MAX_SIZE=10
+LOG_MAX_FILES=5
+
+# Custom Actions
+# Format: CUSTOM_ACTION_[name]=[script/command]
+CUSTOM_ACTION_refresh=browser.reload()
+CUSTOM_ACTION_screenshot=browser.screenshot()
+CUSTOM_ACTION_scroll=browser.evaluate(() => window.scrollTo(0, document.body.scrollHeight))
