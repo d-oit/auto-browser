@@ -254,6 +254,12 @@ auto-browser easy -v -r "https://scholar.google.com" "Find papers about LLM auto
 4. Create bibliography"
 ```
 
+# Example 1: Using command line parameter to specify Gemini
+```bash
+echo "Example 1: Using Gemini for stock price extraction..."
+auto-browser easy --provider google --model gemini-2.0-flash-exp -v "https://www.google.com/finance" "Get AAPL stock price"
+```
+
 ### 4. Project Setup
 ```bash
 # Complete project initialization
@@ -296,6 +302,7 @@ chmod +x demos/*.sh
 ### Environment Variables
 
 - `OPENAI_API_KEY`: Your OpenAI API key (required)
+- `GOOGLE_API_KEY`: Your OpenAI API key 
 - `LLM_MODEL`: Model to use (default: gpt-4o-mini)
 - `BROWSER_HEADLESS`: Run browser in headless mode (default: true)
 
