@@ -46,6 +46,45 @@ sites:
         css: .Ax4B8.ZAGvjd
         description: Search input field
         multiple: false
+  magentasport_basketball:
+    name: Magenta Sport Basketball
+    description: Extract basketball games from Magenta Sport
+    url_pattern: https://www.magentasport.de/basketball
+    selectors:
+      game_container:
+        css: div.game-container
+        description: Container for each game
+        multiple: true
+      teams:
+        css: .teams
+        description: Teams playing
+        multiple: false
+      date:
+        css: .date
+        description: Game date
+        multiple: false
+      time:
+        css: .time
+        description: Game time
+        multiple: false
+      location:
+        css: .location
+        description: Game location
+        multiple: false
+    extract:
+    - type: text
+      selector: .teams
+      name: teams
+    - type: text
+      selector: .date
+      name: date
+    - type: text
+      selector: .time
+      name: time
+    - type: text
+      selector: .location
+      name: location
+    wait_for: div.game-container
 output_dir: output
 browser:
   headless: true
