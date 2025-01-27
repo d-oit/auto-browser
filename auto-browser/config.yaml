@@ -40,7 +40,7 @@ sites:
     output_format: markdown
   magentasport_basketball:
     name: magentasport_basketball
-    description: Extract basketball games list
+    description: Extract basketball games from Magenta Sport
     url_pattern: https://www.magentasport.de/basketball
     selectors:
       stock_price:

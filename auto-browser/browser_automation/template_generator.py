@@ -73,8 +73,9 @@ class TemplateGenerator:
             result = await agent.run()
             
             # Create selectors from analysis
-            selectors = self._create_selectors(result)
-            
+            # selectors = self._create_selectors(result)
+            selectors = result
+
             return Template(
                 name=name,
                 description=description,
