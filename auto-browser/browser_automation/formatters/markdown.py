@@ -73,5 +73,5 @@ class MarkdownFormatter:
         
         # Save content
         file_path = output_path / filename
-        file_path.write_text(content)
+        file_path.write_text(content, encoding='utf-8')
         return file_path

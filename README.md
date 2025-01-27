@@ -302,7 +302,7 @@ chmod +x demos/*.sh
 ### Environment Variables
 
 - `OPENAI_API_KEY`: Your OpenAI API key (required)
-- `GOOGLE_API_KEY`: Your OpenAI API key 
+- `GOOGLE_API_KEY`: Your OpenAI API key
 - `LLM_MODEL`: Model to use (default: gpt-4o-mini)
 - `BROWSER_HEADLESS`: Run browser in headless mode (default: true)
 
