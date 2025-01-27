@@ -3,6 +3,11 @@
 # Social Media Campaign Demo
 # Shows coordinated social media management across platforms
 
+# Set environment variables for OpenAI
+export LLM_PROVIDER=openai
+export LLM_MODEL=gpt-4-vision-preview
+export OPENAI_API_KEY=$(grep OPENAI_API_KEY .env | cut -d '=' -f2)
+
 # Create templates
 echo "Creating social media templates..."
 auto-browser create-template "https://twitter.com" --name twitter --description "Twitter automation"

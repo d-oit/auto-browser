@@ -3,6 +3,11 @@
 # Research Workflow Demo
 # Shows automated academic research and paper analysis
 
+# Set environment variables for OpenAI
+export LLM_PROVIDER=openai
+export LLM_MODEL=gpt-4-vision-preview
+export OPENAI_API_KEY=$(grep OPENAI_API_KEY .env | cut -d '=' -f2)
+
 # Create templates
 echo "Creating research templates..."
 auto-browser create-template "https://scholar.google.com" --name scholar --description "Google Scholar automation"

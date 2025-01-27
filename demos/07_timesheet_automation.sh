@@ -3,6 +3,11 @@
 # Timesheet Automation Demo
 # Shows complex multi-step timesheet management
 
+# Set environment variables for OpenAI
+export LLM_PROVIDER=openai
+export LLM_MODEL=gpt-4-vision-preview
+export OPENAI_API_KEY=$(grep OPENAI_API_KEY .env | cut -d '=' -f2)
+
 # Create template for Workday
 echo "Creating Workday template..."
 auto-browser create-template "https://workday.com" --name workday --description "Timesheet automation"

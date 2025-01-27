@@ -8,7 +8,7 @@ from typing import Dict, Any, Optional
 import yaml
 from browser_use import Agent
 from browser_use.browser.browser import Browser, BrowserConfig
-from langchain_openai import ChatOpenAI
+from .models import ModelConfig, ModelFactory
 
 @dataclass
 class Selector:
@@ -27,6 +27,15 @@ class Template:
 
 class TemplateGenerator:
     """Generate site templates by analyzing webpages."""
+    
+    def __init__(self, model_config: Optional[ModelConfig] = None):
+        """Initialize template generator.
+        
+        Args:
+            model_config: Optional model configuration. If not provided,
+                        will be loaded from environment variables.
+        """
+        self.model_config = model_config or ModelConfig.from_env()
     
     async def create_template(self, url: str, name: str, description: str) -> Template:
         """Create a template by analyzing a webpage.
@@ -52,21 +61,10 @@ class TemplateGenerator:
             3. Return a list of CSS selectors for extracting content
             """
             
-            # Create and run agent
-            # Get API key and model from environment
-            api_key = os.getenv('OPENAI_API_KEY')
-            if not api_key:
-                raise ValueError("OPENAI_API_KEY environment variable must be set")
-
-            model = os.getenv('LLM_MODEL', 'gpt-4o-mini')
-
-            # Create agent with explicit API key and model
+            # Create and run agent with configured model
             agent = Agent(
                 task=task,
-                llm=ChatOpenAI(
-                    api_key=api_key,
-                    model=model
-                ),
+                llm=ModelFactory.create_model(self.model_config),
                 browser=browser,
                 use_vision=True
             )

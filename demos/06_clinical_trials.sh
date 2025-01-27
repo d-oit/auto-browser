@@ -3,6 +3,11 @@
 # Clinical trials demo
 # Shows how to extract structured data from clinical trials
 
+# Set environment variables for OpenAI
+export LLM_PROVIDER=openai
+export LLM_MODEL=gpt-4-vision-preview
+export OPENAI_API_KEY=$(grep OPENAI_API_KEY .env | cut -d '=' -f2)
+
 # Create template for clinical trials
 echo "Creating template for clinical trials..."
 auto-browser create-template "https://clinicaltrials.gov/search" --name trials --description "Extract clinical trial information"

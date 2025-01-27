@@ -3,6 +3,11 @@
 # Demo 5: Parallel Task Execution
 # This script demonstrates running multiple browser automation tasks in parallel
 
+# Set environment variables for OpenAI
+export LLM_PROVIDER=openai
+export LLM_MODEL=gpt-4-vision-preview
+export OPENAI_API_KEY=$(grep OPENAI_API_KEY .env | cut -d '=' -f2)
+
 # Ensure we have a config file
 if [ ! -f "config.yaml" ]; then
     echo "Creating config file first..."

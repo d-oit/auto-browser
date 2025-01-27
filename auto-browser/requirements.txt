@@ -1,8 +1,17 @@
-browser-use>=0.1.0
+# Core dependencies
 click>=8.0.0
 pydantic>=2.0.0
 python-dotenv>=1.0.0
 rich>=10.0.0
 pyyaml>=6.0.0
-openai>=1.0.0
+langchain-core>=0.3.27
+browser-use==0.1.23
+importlib-metadata>=6.0,<8.0
+playwright>=1.49.0
+
+# Google Gemini dependencies
+langchain-google-genai>=0.0.2
+google-generativeai>=0.8.0
+
+# OpenAI dependencies
 langchain-openai>=0.0.2

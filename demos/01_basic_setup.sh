@@ -3,6 +3,11 @@
 # Basic setup demo
 # Shows how to use auto-browser for simple data extraction
 
+# Set environment variables for OpenAI
+export LLM_PROVIDER=openai
+export LLM_MODEL=gpt-4-vision-preview
+export OPENAI_API_KEY=$(grep OPENAI_API_KEY .env | cut -d '=' -f2)
+
 # Extract stock price
 echo "Extracting stock price for AAPL..."
 auto-browser easy -v "https://www.google.com/finance" "Get AAPL stock price"

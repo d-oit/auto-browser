@@ -3,6 +3,11 @@
 # Advanced automation demo
 # Shows complex multi-step interactions and real-world use cases
 
+# Set environment variables for OpenAI
+export LLM_PROVIDER=openai
+export LLM_MODEL=gpt-4-vision-preview
+export OPENAI_API_KEY=$(grep OPENAI_API_KEY .env | cut -d '=' -f2)
+
 # Time sheet automation
 echo "Demonstrating timesheet automation..."
 auto-browser easy --interactive "https://workday.com" "Login with username $USER_EMAIL, go to time sheet, and enter 8 hours for today under project 'Development'"

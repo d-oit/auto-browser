@@ -3,6 +3,11 @@
 # Project Management Workflow Demo
 # Shows automated project setup and team coordination
 
+# Set environment variables for OpenAI
+export LLM_PROVIDER=openai
+export LLM_MODEL=gpt-4-vision-preview
+export OPENAI_API_KEY=$(grep OPENAI_API_KEY .env | cut -d '=' -f2)
+
 # Create templates
 echo "Creating project management templates..."
 auto-browser create-template "https://github.com" --name github --description "GitHub project setup"

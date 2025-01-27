@@ -4,6 +4,24 @@ Auto-Browser is an AI-powered web automation tool that makes complex web interac
 
 Created by rUv (cause he could)
 
+## Packages Core
+- `click>=8.0.0`
+- `pydantic>=2.0.0`
+- `python-dotenv>=1.0.0`
+- `rich>=10.0.0`
+- `pyyaml>=6.0.0`
+- `langchain-core>=0.3.27`
+- `browser-use==0.1.23`
+- `importlib-metadata>=6.0,<8.0`
+- `playwright>=1.49.0`
+
+### Google Gemini dependencies
+- `langchain-google-genai>=0.0.2`
+- `google-generativeai>=0.8.0`
+
+## OpenAI dependencies
+- `langchain-openai>=0.0.2`
+
 
 ## Features
 
@@ -56,11 +74,11 @@ auto-browser easy --interactive "https://workday.com" "Login with username $USER
 ```bash
 # Clone repository
 git clone https://github.com/ruvnet/auto-browser.git
-cd auto-browser
+cd auto-browser/auto-browser
 
 # Set up environment
 cp .env.example .env
-# Edit .env and add your OPENAI_API_KEY
+# Edit .env and add your OPENAI_API_KEY or GOOGLE_API_KEY
 
 # Run with default example
 docker-compose up
@@ -121,8 +139,8 @@ npx playwright install-deps
 2. **Clone and Setup**
 ```bash
 # Clone repository
-git clone https://github.com/ruvnet/auto-browser.git
-cd auto-browser
+git clone https://github.com/d-oit/auto-browser.git
+cd auto-browser/auto-browser
 
 # Install Python package
 pip install -e .
