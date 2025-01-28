@@ -16,11 +16,11 @@ cd auto-browser || exit 1
 
 # Create a template for magentasport.de/basketball
 echo "Creating template for magentasport.de/basketball..."
-auto-browser create-template "https://www.magentasport.de/basketball" --name magentasport_basketball --description "Extract basketball games from Magenta Sport"
+# auto-browser create-template "https://www.magentasport.de/basketball" --name magentasport_basketball --description "Extract basketball games from Magenta Sport"
 
 # Fetch basketball games using Google Gemini
 echo "Fetching basketball games and formatting as markdown..."
-auto-browser easy --provider google --model gemini-2.0-flash-exp --verbose --site magentasport_basketball "https://www.magentasport.de/basketball" "Erlebe ausgewählte Topspiele der Turkish Airlines EuroLeague kostenlos! Scrape the div following this text and list all basketball games as markdown. Each game should include the teams, date, time, and location."
+auto-browser easy --provider google --model gemini-2.0-flash-exp --verbose --site magentasport_basketball "https://www.magentasport.de/basketball" "Erlebe ausgewählte Topspiele der Turkish Airlines EuroLeague kostenlos! Scrape all games after this and create a list of all basketball games. Each game should include the teams, date, time, and location."
 
 # Return to original directory
 cd - > /dev/null
